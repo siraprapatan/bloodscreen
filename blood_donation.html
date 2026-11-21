@@ -1,0 +1,1206 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ใบสมัครผู้บริจาคโลหิต</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  color-scheme: light;
+  --brand:#d6263b; --brand-600:#b51d30; --brand-700:#8f1626; --brand-50:#fff1f3; --brand-100:#ffe0e5;
+  --ink:#16161a; --ink-2:#4f4f58; --muted:#8a8a93; --line:#ececf0; --line-2:#dcdce3;
+  --bg:#f6f6f8; --card:#ffffff; --surface:#fcfcfb;
+  --ok:#0b7a37; --ok-bg:#e8f6ee; --warn:#9a6200; --warn-bg:#fff5e0; --bad:#c0303a; --bad-bg:#fdecee;
+  --grid:#e1e0d9; --axis:#898781;
+  --radius:16px; --shadow:0 1px 2px rgba(16,16,24,.04), 0 8px 24px rgba(16,16,24,.06);
+  --font:"IBM Plex Sans Thai", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.off{display:none!important}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.88);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em}
+.logo-mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(145deg,#ef4459,var(--brand-600));display:grid;place-items:center;box-shadow:0 4px 12px rgba(214,38,59,.3)}
+.logo small{display:block;font-weight:500;font-size:12px;color:var(--muted);line-height:1.2}
+.spacer{flex:1}
+.mode-pill{font-size:12px;padding:4px 10px;border-radius:999px;background:var(--warn-bg);color:var(--warn);font-weight:600;white-space:nowrap}
+.mode-pill.online{background:var(--ok-bg);color:var(--ok)}
+.nav-btn{border:1px solid var(--line-2);background:#fff;border-radius:10px;padding:7px 14px;cursor:pointer;font-weight:500;white-space:nowrap;transition:.15s}
+.nav-btn:hover{border-color:var(--brand);color:var(--brand)}
+
+.wrap{max-width:880px;margin:0 auto;padding:24px 16px 80px}
+.wrap.wide{max-width:1180px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-radius:22px;padding:28px 28px 24px;color:#fff;background:radial-gradient(120% 140% at 100% 0%,#ff6b7d 0%,var(--brand) 45%,var(--brand-700) 100%);box-shadow:0 12px 32px rgba(214,38,59,.25)}
+.hero h1{margin:0 0 4px;font-size:26px;line-height:1.3;letter-spacing:-.01em}
+.hero p{margin:0;opacity:.92}
+.hero .tag{display:inline-block;margin-bottom:10px;font-size:12px;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:999px}
+.hero svg.drop{position:absolute;right:-20px;bottom:-40px;opacity:.14;width:200px;height:200px}
+
+/* ---------- stepper ---------- */
+.stepper{display:flex;gap:6px;margin:22px 0 18px;counter-reset:s}
+.stepper .st{flex:1;min-width:0}
+.stepper .bar{height:6px;border-radius:99px;background:var(--line-2);overflow:hidden}
+.stepper .bar i{display:block;height:100%;width:0;background:var(--brand);transition:width .35s}
+.stepper .st.done .bar i,.stepper .st.cur .bar i{width:100%}
+.stepper .lbl{font-size:12px;color:var(--muted);margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stepper .st.cur .lbl{color:var(--ink);font-weight:600}
+.step-title{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
+.step-title h2{margin:0;font-size:21px}
+.step-title span{color:var(--muted);font-size:13px}
+
+/* ---------- cards & fields ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:16px}
+.card h3{margin:0 0 14px;font-size:16px;display:flex;align-items:center;gap:8px}
+.card h3 .num{width:24px;height:24px;border-radius:8px;background:var(--brand-50);color:var(--brand);font-size:13px;display:grid;place-items:center}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px 16px}
+.c12{grid-column:span 12}.c9{grid-column:span 9}.c8{grid-column:span 8}.c6{grid-column:span 6}.c4{grid-column:span 4}.c3{grid-column:span 3}
+@media (max-width:720px){.c9,.c8,.c6,.c4,.c3{grid-column:span 12}.c3.half,.c4.half,.c6.half{grid-column:span 6}}
+@media (max-width:560px){.logo small{display:none}.logo{font-size:14px}.mode-pill{font-size:11px;padding:3px 8px}.hero{padding:22px 20px}.hero h1{font-size:22px}.card{padding:18px}.q{padding:12px 16px}.qsec-h{padding:12px 16px}}
+.field>label,.field>.label{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:6px}
+.field .req{color:var(--brand)}
+.field .help{font-size:12px;color:var(--muted);margin-top:4px}
+.input,select.input,textarea.input{width:100%;border:1.5px solid var(--line-2);background:#fff;border-radius:11px;padding:10px 12px;outline:none;transition:border-color .15s, box-shadow .15s}
+textarea.input{min-height:76px;resize:vertical}
+.input:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(214,38,59,.12)}
+.input[readonly]{background:#f7f7f9;color:var(--ink-2)}
+.unit{position:relative}.unit .input{padding-right:46px}.unit em{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-style:normal;color:var(--muted);font-size:13px}
+.field.invalid .input{border-color:var(--bad);box-shadow:0 0 0 4px rgba(192,48,58,.1)}
+.field.invalid>label,.field.invalid>.label{color:var(--bad)}
+.field .err{display:none;color:var(--bad);font-size:12px;margin-top:4px}
+.field.invalid .err{display:block}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative;cursor:pointer;user-select:none}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1.5px solid var(--line-2);border-radius:999px;background:#fff;transition:.15s;font-size:14px}
+.chip span::before{content:"";width:14px;height:14px;border-radius:50%;border:1.5px solid var(--line-2);transition:.15s;flex:none}
+.chip input[type=checkbox]+span::before{border-radius:4px}
+.chip:hover span{border-color:#e9a3ad}
+.chip input:checked+span{border-color:var(--brand);background:var(--brand-50);color:var(--brand-700);font-weight:600}
+.chip input:checked+span::before{border-color:var(--brand);background:var(--brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.chip input:focus-visible+span{box-shadow:0 0 0 4px rgba(214,38,59,.15)}
+.field.invalid .chip span{border-color:#efb1b7}
+
+/* big choice cards */
+.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:720px){.choices{grid-template-columns:1fr}}
+.choice{position:relative;cursor:pointer}
+.choice input{position:absolute;opacity:0}
+.choice .box{height:100%;border:1.5px solid var(--line-2);border-radius:14px;padding:16px;background:#fff;transition:.15s;display:flex;flex-direction:column;gap:6px}
+.choice .ic{width:38px;height:38px;border-radius:11px;background:var(--brand-50);display:grid;place-items:center;color:var(--brand)}
+.choice b{font-size:15px}
+.choice small{color:var(--muted);font-size:12.5px;line-height:1.45}
+.choice:hover .box{border-color:#e9a3ad}
+.choice input:checked+.box{border-color:var(--brand);background:linear-gradient(180deg,var(--brand-50),#fff);box-shadow:0 0 0 4px rgba(214,38,59,.1)}
+.choice input:checked+.box .ic{background:var(--brand);color:#fff}
+.field.invalid .choice .box{border-color:#efb1b7}
+
+/* info boxes */
+.note{border-radius:12px;padding:12px 14px;font-size:13.5px;background:#f4f6fb;color:#36405a;border:1px solid #e3e8f3}
+.note.warn{background:var(--warn-bg);border-color:#f6dfb0;color:#6e4700}
+.note.ok{background:var(--ok-bg);border-color:#c5e8d3;color:#0b5a2a}
+.note b{font-weight:600}
+.criteria{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:720px){.criteria{grid-template-columns:1fr}}
+.criteria .cbox{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--surface)}
+.criteria .cbox h4{margin:0 0 6px;font-size:14px;color:var(--brand-700)}
+.criteria ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:13.5px}
+
+/* questionnaire */
+.qsec{margin-bottom:16px}
+.qsec-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 22px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,#fbfbfc)}
+.qsec-h h3{margin:0}
+.qsec-h .cnt{font-size:12px;color:var(--muted);white-space:nowrap}
+.qsec.card{padding:0;overflow:hidden}
+.q{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:start;padding:14px 22px;border-bottom:1px solid var(--line);transition:background .15s}
+.q:last-child{border-bottom:0}
+.q:hover{background:#fcfcfd}
+.q-num{width:30px;height:30px;border-radius:9px;background:#f1f1f4;color:var(--ink-2);font-weight:600;font-size:13px;display:grid;place-items:center}
+.q.answered .q-num{background:var(--brand-50);color:var(--brand)}
+.q-text{padding-top:4px}
+.q-sub{margin-top:8px}
+.q-sub .input{max-width:420px}
+.q.invalid{background:#fff6f7}
+.q.invalid .q-num{background:var(--bad);color:#fff}
+.yn{display:flex;background:#f1f1f4;border-radius:11px;padding:3px;gap:3px}
+.yn label{cursor:pointer;position:relative}
+.yn input{position:absolute;opacity:0}
+.yn span{display:block;padding:6px 14px;border-radius:9px;font-size:13.5px;font-weight:500;color:var(--ink-2);transition:.15s;white-space:nowrap}
+.yn input:checked+span{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:600}
+.yn input[value="ใช่"]:checked+span{color:var(--brand-700)}
+.yn input:focus-visible+span{outline:2px solid var(--brand)}
+@media (max-width:620px){.q{grid-template-columns:30px 1fr}.q .yn{grid-column:2;justify-self:start}}
+.progress-mini{position:sticky;top:62px;z-index:5;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:14px;box-shadow:var(--shadow)}
+.progress-mini .track{flex:1;height:8px;background:#f1f1f4;border-radius:99px;overflow:hidden}
+.progress-mini .track i{display:block;height:100%;background:var(--brand);width:0;transition:width .3s}
+.progress-mini b{font-size:13px;white-space:nowrap}
+
+/* review & consent */
+.review{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.review div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.review small{display:block;color:var(--muted);font-size:12px}
+.review b{font-weight:600;word-break:break-word}
+.consent-text{font-size:13.5px;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;max-height:260px;overflow:auto}
+.consent-text p{margin:0 0 8px}
+.consent-text .hl{color:var(--brand-700);font-weight:600}
+.agree{display:flex;gap:10px;align-items:flex-start;padding:14px;border:1.5px solid var(--line-2);border-radius:12px;cursor:pointer;margin-top:12px;background:#fff}
+.agree input{width:20px;height:20px;accent-color:var(--brand);margin-top:2px;flex:none}
+.field.invalid .agree{border-color:var(--bad)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:11px 20px;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px rgba(214,38,59,.25)}
+.btn-primary:hover{background:var(--brand-600)}
+.btn-ghost{background:#fff;border:1.5px solid var(--line-2);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink-2)}
+.btn-danger{background:#fff;border:1.5px solid #f1c2c7;color:var(--bad)}
+.btn-danger:hover{background:var(--bad-bg)}
+.btn-sm{padding:7px 12px;font-size:13px;border-radius:10px}
+.btn[disabled]{opacity:.6;cursor:progress}
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.5);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.form-nav{position:sticky;bottom:0;z-index:6;display:flex;gap:10px;justify-content:space-between;align-items:center;padding:12px 0;background:linear-gradient(180deg,rgba(246,246,248,0),var(--bg) 35%)}
+.form-nav .info{color:var(--muted);font-size:13px}
+
+/* success */
+.success{text-align:center;padding:48px 24px}
+.success .ring{width:84px;height:84px;margin:0 auto 18px;border-radius:50%;background:var(--ok-bg);display:grid;place-items:center}
+.success h2{margin:0 0 6px}
+.refid{display:inline-block;margin:14px 0 22px;font-size:22px;font-weight:700;letter-spacing:.04em;background:var(--brand-50);color:var(--brand-700);padding:10px 20px;border-radius:12px;border:1px dashed #efb1b7}
+
+/* ---------- login ---------- */
+.login{max-width:400px;margin:40px auto}
+.login .card{padding:30px}
+.login h2{margin:8px 0 2px}
+.login p{color:var(--muted);margin:0 0 20px;font-size:14px}
+
+/* ---------- dashboard ---------- */
+.dash-head{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:18px}
+.dash-head h1{margin:0;font-size:24px;letter-spacing:-.01em}
+.dash-head .sub{color:var(--muted);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+@media (max-width:980px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.kpi small{display:flex;align-items:center;gap:6px;color:var(--ink-2);font-size:13px}
+.kpi small i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.kpi b{display:block;font-size:30px;line-height:1.15;margin-top:6px;letter-spacing:-.02em}
+.kpi .foot{font-size:12px;color:var(--muted)}
+.charts{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:16px}
+.charts .card{margin:0;padding:18px}
+.charts .w4{grid-column:span 4}.charts .w2{grid-column:span 2}
+@media (max-width:980px){.charts .w4,.charts .w2{grid-column:span 6}}
+.charts h4{margin:0 0 2px;font-size:15px}
+.charts .cap{color:var(--muted);font-size:12px;margin-bottom:10px}
+.chart-box{position:relative;height:220px}
+.empty-chart{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.toolbar .input{width:auto}
+.toolbar .search{flex:1;min-width:200px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:820px}
+.tbl th{position:sticky;top:0;background:#fafafb;text-align:left;font-weight:600;color:var(--ink-2);font-size:12.5px;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle;font-variant-numeric:tabular-nums}
+.tbl tbody tr{cursor:pointer;transition:background .12s}
+.tbl tbody tr:hover{background:#fdf6f7}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl .name{font-weight:600}
+.tbl .muted{color:var(--muted);font-size:12.5px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12.5px;font-weight:600;white-space:nowrap;background:#f1f1f4;color:var(--ink-2)}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.badge.ok{background:var(--ok-bg);color:var(--ok)}
+.badge.warn{background:var(--warn-bg);color:var(--warn)}
+.badge.bad{background:var(--bad-bg);color:var(--bad)}
+.badge.plain::before{display:none}
+.risk{display:inline-flex;align-items:center;gap:5px;font-weight:600;font-size:13px;color:var(--warn)}
+.risk.zero{color:var(--ok)}
+.blood{display:inline-grid;place-items:center;min-width:38px;padding:2px 8px;border-radius:8px;background:var(--brand-50);color:var(--brand-700);font-weight:700;font-size:13px}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(18,18,24,.45);backdrop-filter:blur(3px);display:flex;align-items:flex-start;justify-content:center;padding:32px 16px;overflow:auto}
+.modal-card{width:100%;max-width:920px;background:#fff;border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,.25);overflow:hidden;animation:pop .2s ease}
+@keyframes pop{from{transform:translateY(10px);opacity:0}}
+.m-head{padding:20px 24px 0;display:flex;gap:14px;align-items:flex-start}
+.avatar{width:52px;height:52px;border-radius:14px;background:linear-gradient(145deg,#ef4459,var(--brand-700));color:#fff;display:grid;place-items:center;font-weight:700;font-size:20px;flex:none}
+.m-head h2{margin:0;font-size:20px}
+.m-head .meta{color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}
+.x{margin-left:auto;border:0;background:#f1f1f4;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:18px;flex:none}
+.tabs{display:flex;gap:4px;padding:14px 24px 0;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{border:0;background:none;padding:10px 14px;cursor:pointer;font-weight:500;color:var(--ink-2);border-bottom:2.5px solid transparent;white-space:nowrap}
+.tab.on{color:var(--brand);border-bottom-color:var(--brand);font-weight:600}
+.m-body{padding:20px 24px;max-height:calc(100vh - 260px);overflow:auto}
+.m-foot{padding:14px 24px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;background:#fafafb}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.kv div{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.kv small{display:block;color:var(--muted);font-size:12px}
+.kv b{font-weight:500;word-break:break-word}
+.sec-t{font-size:13px;font-weight:700;color:var(--brand-700);margin:18px 0 10px;text-transform:uppercase;letter-spacing:.02em}
+.sec-t:first-child{margin-top:0}
+.qa{display:grid;grid-template-columns:34px 1fr auto;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:start}
+.qa:last-child{border-bottom:0}
+.qa .n{width:28px;height:28px;border-radius:8px;background:#f1f1f4;display:grid;place-items:center;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.qa.flag{background:linear-gradient(90deg,var(--warn-bg),transparent 70%);border-radius:10px;padding-left:6px}
+.qa.flag .n{background:#f6c65b;color:#3d2800}
+.qa .ans{font-weight:600;white-space:nowrap}
+.qa .det{font-size:13px;color:var(--ink-2);margin-top:2px}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;color:var(--ink-2)}
+.switch input{accent-color:var(--brand);width:16px;height:16px}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;z-index:80;background:#1d1d22;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:.25s;pointer-events:none;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.toast.err{background:var(--bad)}
+.toast.ok{background:var(--ok)}
+footer.foot{text-align:center;color:var(--muted);font-size:12px;padding:20px 16px 30px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="logo">
+      <div class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.5c-.3 0-.6.2-.8.4C9.6 5 5 10.6 5 15a7 7 0 0 0 14 0c0-4.4-4.6-10-6.2-12.1-.2-.2-.5-.4-.8-.4z"/></svg></div>
+      <div>ระบบใบสมัครผู้บริจาคโลหิต<small>Blood Donor Registration</small></div>
+    </div>
+    <div class="spacer"></div>
+    <span id="modePill" class="mode-pill"></span>
+    <button class="nav-btn" id="navBtn" type="button">ผู้ดูแลระบบ</button>
+  </div>
+</header>
+
+<!-- ================= FORM ================= -->
+<main id="view-form" class="wrap">
+  <section class="hero">
+    <span class="tag">แบบฟอร์ม ITSP001/001</span>
+    <h1>ใบสมัครผู้บริจาคโลหิต</h1>
+    <p>กรอกข้อมูลตามความเป็นจริง เพื่อความปลอดภัยของท่านและผู้ป่วยที่จะรับโลหิต ใช้เวลาประมาณ 5 นาที</p>
+    <svg class="drop" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.5c-.3 0-.6.2-.8.4C9.6 5 5 10.6 5 15a7 7 0 0 0 14 0c0-4.4-4.6-10-6.2-12.1-.2-.2-.5-.4-.8-.4z"/></svg>
+  </section>
+
+  <nav class="stepper" id="stepper"></nav>
+
+  <form id="donorForm" novalidate autocomplete="on">
+
+    <!-- STEP 1 -->
+    <section class="step" data-step="0">
+      <div class="step-title"><h2>ประเภทผู้บริจาค</h2><span>ขั้นตอน 1 / 5</span></div>
+      <div class="card">
+        <div class="field" data-req="donorType">
+          <div class="label">ท่านเป็นผู้บริจาคประเภทใด <span class="req">*</span></div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="donorType" value="บริจาคโลหิตครั้งแรก"><div class="box">
+              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+              <b>บริจาคโลหิตครั้งแรก</b><small>ไม่เคยบริจาคโลหิตมาก่อน</small></div></label>
+            <label class="choice"><input type="radio" name="donorType" value="บริจาคครั้งสุดท้ายนานกว่า 2 ปี"><div class="box">
+              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+              <b>บริจาคครั้งสุดท้ายนานกว่า 2 ปี</b><small>เคยบริจาค แต่เว้นช่วงไปนาน</small></div></label>
+            <label class="choice"><input type="radio" name="donorType" value="บริจาคโลหิตประจำ"><div class="box">
+              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+              <b>บริจาคโลหิตประจำ</b><small>ครั้งล่าสุดภายใน 2 ปี</small></div></label>
+          </div>
+          <div class="err">กรุณาเลือกประเภทผู้บริจาค</div>
+        </div>
+        <div class="grid" style="margin-top:16px">
+          <div class="field c4"><label for="formDate">วันที่สมัคร</label><input class="input" type="date" id="formDate" name="formDate"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3><span class="num">i</span>เกณฑ์อายุในการบริจาคโลหิต</h3>
+        <div class="note" style="margin-bottom:12px">อายุต่ำกว่า 18 ปี ต้องมี<b>หนังสือยินยอมจากผู้ปกครอง</b></div>
+        <div class="criteria">
+          <div class="cbox"><h4>โลหิตรวม: อายุ 17 – 70 ปี</h4><ul><li>บริจาคครั้งแรกอายุไม่เกิน 60 ปี</li><li>ผู้บริจาคประจำอายุ 65–70 ปี ต้องผ่านการประเมินเพิ่มเติม</li></ul></div>
+          <div class="cbox"><h4>โลหิตเฉพาะส่วน: อายุ 17 – 60 ปี</h4><ul><li>บริจาคครั้งแรกอายุไม่เกิน 50 ปี</li><li>ต้องเคยบริจาคโลหิตรวมมาก่อนภายใน 1 ปี</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="step" data-step="1" hidden>
+      <div class="step-title"><h2>ข้อมูลส่วนตัว</h2><span>ขั้นตอน 2 / 5</span></div>
+      <div class="card">
+        <h3><span class="num">1</span>ชื่อและเลขประจำตัว</h3>
+        <div class="grid">
+          <div class="field c3"><label for="prefix">คำนำหน้า <span class="req">*</span></label>
+            <select class="input" id="prefix" name="prefix" required><option value="">เลือก</option><option>นาย</option><option>นาง</option><option>นางสาว</option><option>ด.ช.</option><option>ด.ญ.</option><option>อื่นๆ</option></select><div class="err">กรุณาเลือก</div></div>
+          <div class="field c9"><label for="fullName">ชื่อ-นามสกุล <span class="req">*</span></label><input class="input" id="fullName" name="fullName" required placeholder="เช่น สมใจ ใจดี"><div class="err">กรุณากรอกชื่อ-นามสกุล</div></div>
+          <div class="field c12"><label for="formerName">ชื่อ-นามสกุล (เดิม)</label><input class="input" id="formerName" name="formerName" placeholder="ถ้ามีการเปลี่ยนชื่อ"></div>
+          <div class="field c6"><label for="nationalId">เลขบัตรประจำตัวประชาชน <span class="req">*</span></label><input class="input" id="nationalId" name="nationalId" required inputmode="numeric" placeholder="x-xxxx-xxxxx-xx-x" maxlength="17"><div class="err" id="nidErr">กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง</div></div>
+          <div class="field c6"><label for="donorId">เลขประจำตัวผู้บริจาคโลหิต</label><input class="input" id="donorId" name="donorId" placeholder="ถ้ามี"></div>
+          <div class="field c4"><label for="dob">วัน/เดือน/ปีเกิด <span class="req">*</span></label><input class="input" type="date" id="dob" name="dob" required><div class="err">กรุณาระบุวันเกิด</div></div>
+          <div class="field c4 half"><label for="age">อายุ</label><div class="unit"><input class="input" id="age" name="age" readonly placeholder="คำนวณอัตโนมัติ"><em>ปี</em></div></div>
+          <div class="field c4 half"><div class="label">เพศกำเนิด (ตามสูติบัตร) <span class="req">*</span></div>
+            <div class="chips" data-req="sex"><label class="chip"><input type="radio" name="sex" value="หญิง"><span>หญิง</span></label><label class="chip"><input type="radio" name="sex" value="ชาย"><span>ชาย</span></label></div><div class="err">กรุณาเลือกเพศ</div></div>
+          <div class="field c3 half"><label for="weight">น้ำหนัก <span class="req">*</span></label><div class="unit"><input class="input" type="number" step="0.1" min="20" max="250" id="weight" name="weight" required><em>กก.</em></div><div class="err">กรุณากรอก</div></div>
+          <div class="field c3 half"><label for="height">ส่วนสูง</label><div class="unit"><input class="input" type="number" min="80" max="250" id="height" name="height"><em>ซม.</em></div></div>
+          <div class="c6" id="eligBox"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3><span class="num">2</span>ข้อมูลติดต่อ</h3>
+        <div class="grid">
+          <div class="field c12"><div class="label">สถานที่ที่ติดต่อได้</div>
+            <div class="chips"><label class="chip"><input type="checkbox" name="addressType" value="ที่อยู่เดิม"><span>ที่อยู่เดิม</span></label><label class="chip"><input type="checkbox" name="addressType" value="ที่อยู่ปัจจุบัน"><span>ที่อยู่ปัจจุบัน</span></label></div></div>
+          <div class="field c8"><label for="address">ที่อยู่</label><textarea class="input" id="address" name="address" rows="2" placeholder="บ้านเลขที่ ถนน ตำบล อำเภอ จังหวัด"></textarea></div>
+          <div class="field c4"><label for="postcode">รหัสไปรษณีย์</label><input class="input" id="postcode" name="postcode" inputmode="numeric" maxlength="5"></div>
+          <div class="field c4"><label for="phone">เบอร์โทรศัพท์ (ปัจจุบัน) <span class="req">*</span></label><input class="input" type="tel" id="phone" name="phone" required inputmode="tel" placeholder="08x-xxx-xxxx"><div class="err">กรุณากรอกเบอร์โทรศัพท์</div></div>
+          <div class="field c4"><label for="emergencyPhone">เบอร์ติดต่อฉุกเฉิน</label><input class="input" type="tel" id="emergencyPhone" name="emergencyPhone" inputmode="tel"></div>
+          <div class="field c4"><label for="email">อีเมล</label><input class="input" type="email" id="email" name="email" placeholder="name@example.com"><div class="err">รูปแบบอีเมลไม่ถูกต้อง</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3><span class="num">3</span>อาชีพ</h3>
+        <div class="field" data-req="occupation">
+          <div class="chips">
+            <label class="chip"><input type="radio" name="occupation" value="นักเรียน นักศึกษา"><span>นักเรียน นักศึกษา</span></label>
+            <label class="chip"><input type="radio" name="occupation" value="ข้าราชการ ทหาร ตำรวจ พนักงานรัฐวิสาหกิจ"><span>ข้าราชการ ทหาร ตำรวจ พนักงานรัฐวิสาหกิจ</span></label>
+            <label class="chip"><input type="radio" name="occupation" value="พนักงานบริษัท รับจ้าง"><span>พนักงานบริษัท รับจ้าง</span></label>
+            <label class="chip"><input type="radio" name="occupation" value="พระภิกษุ สามเณร นักบวช"><span>พระภิกษุ สามเณร นักบวช</span></label>
+            <label class="chip"><input type="radio" name="occupation" value="เกษตรกร"><span>เกษตรกร</span></label>
+            <label class="chip"><input type="radio" name="occupation" value="ธุรกิจส่วนตัว ค้าขาย"><span>ธุรกิจส่วนตัว ค้าขาย</span></label>
+            <label class="chip"><input type="radio" name="occupation" value="อื่นๆ"><span>อื่นๆ</span></label>
+          </div>
+          <div class="err">กรุณาเลือกอาชีพ</div>
+        </div>
+        <div class="field cond" data-if="occupation=อื่นๆ" style="margin-top:12px;max-width:420px"><input class="input" name="occupationOther" placeholder="โปรดระบุอาชีพ" required><div class="err">กรุณาระบุอาชีพ</div></div>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step" data-step="2" hidden>
+      <div class="step-title"><h2>ประวัติการบริจาค</h2><span>ขั้นตอน 3 / 5</span></div>
+      <div class="cond" data-if="donorType=บริจาคโลหิตครั้งแรก">
+        <div class="card"><div class="note ok"><b>ท่านเลือก “บริจาคโลหิตครั้งแรก”</b> — ไม่ต้องกรอกส่วนนี้ กด “ถัดไป” เพื่อทำแบบสอบถามสุขภาพได้เลย</div></div>
+      </div>
+      <div class="cond" data-if="donorType=บริจาคครั้งสุดท้ายนานกว่า 2 ปี|บริจาคโลหิตประจำ">
+        <div class="card">
+          <h3><span class="num">1</span>ครั้งที่ผ่านมา ท่านได้บริจาค</h3>
+          <div class="field" data-req="prevDonationType">
+            <div class="chips"><label class="chip"><input type="radio" name="prevDonationType" value="โลหิตรวม"><span>โลหิตรวม</span></label><label class="chip"><input type="radio" name="prevDonationType" value="โลหิตเฉพาะส่วน"><span>โลหิตเฉพาะส่วน</span></label></div>
+            <div class="err">กรุณาเลือก</div>
+          </div>
+          <div class="field cond" data-if="prevDonationType=โลหิตเฉพาะส่วน" style="margin-top:14px">
+            <div class="label">โปรดระบุชนิด</div>
+            <div class="chips" data-req="prevComponent">
+              <label class="chip"><input type="radio" name="prevComponent" value="เม็ดเลือดแดง"><span>เม็ดเลือดแดง</span></label>
+              <label class="chip"><input type="radio" name="prevComponent" value="เกล็ดเลือด"><span>เกล็ดเลือด</span></label>
+              <label class="chip"><input type="radio" name="prevComponent" value="พลาสมา"><span>พลาสมา</span></label>
+              <label class="chip"><input type="radio" name="prevComponent" value="อื่นๆ"><span>อื่นๆ</span></label>
+            </div><div class="err">กรุณาเลือกชนิด</div>
+            <div class="cond" data-if="prevComponent=อื่นๆ" style="margin-top:10px;max-width:420px"><input class="input" name="prevComponentOther" placeholder="โปรดระบุ"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3><span class="num">2</span>ปัญหาในการบริจาคครั้งที่ผ่านมา</h3>
+          <div class="field" data-req="prevProblem">
+            <div class="chips" data-exclusive="ไม่มี">
+              <label class="chip"><input type="checkbox" name="prevProblem" value="ไม่มี"><span>ไม่มี</span></label>
+              <label class="chip"><input type="checkbox" name="prevProblem" value="มีปัญหา"><span>มีปัญหา</span></label>
+              <label class="chip"><input type="checkbox" name="prevProblem" value="ขอให้งดบริจาคชั่วคราว"><span>ขอให้งดบริจาคชั่วคราว</span></label>
+            </div><div class="err">กรุณาเลือกอย่างน้อย 1 ข้อ</div>
+          </div>
+          <div class="field cond" data-if="prevProblem=มีปัญหา" style="margin-top:14px">
+            <div class="label">มีปัญหา โปรดระบุ</div>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="prevProblemDetail" value="เป็นลม"><span>เป็นลม</span></label>
+              <label class="chip"><input type="checkbox" name="prevProblemDetail" value="เขียวช้ำ"><span>เขียวช้ำ</span></label>
+              <label class="chip"><input type="checkbox" name="prevProblemDetail" value="หาเส้นเลือดยาก"><span>หาเส้นเลือดยาก</span></label>
+              <label class="chip"><input type="checkbox" name="prevProblemDetail" value="อื่นๆ"><span>อื่นๆ</span></label>
+            </div>
+            <div class="cond" data-if="prevProblemDetail=อื่นๆ" style="margin-top:10px;max-width:420px"><input class="input" name="prevProblemOther" placeholder="โปรดระบุ"></div>
+          </div>
+          <div class="field cond" data-if="prevProblem=ขอให้งดบริจาคชั่วคราว" style="margin-top:14px">
+            <div class="label">ขอให้งดบริจาคชั่วคราวเนื่องจาก</div>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="prevDeferReason" value="ความเข้มโลหิตไม่ผ่านเกณฑ์"><span>ความเข้มโลหิตไม่ผ่านเกณฑ์</span></label>
+              <label class="chip"><input type="radio" name="prevDeferReason" value="อื่นๆ"><span>อื่นๆ</span></label>
+            </div>
+            <div class="cond" data-if="prevDeferReason=อื่นๆ" style="margin-top:10px;max-width:420px"><input class="input" name="prevDeferOther" placeholder="โปรดระบุ"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="step" data-step="3" hidden>
+      <div class="step-title"><h2>แบบสอบถามสุขภาพ</h2><span>ขั้นตอน 4 / 5</span></div>
+      <div class="note warn" style="margin-bottom:14px">โปรดตอบคำถามตามความเป็นจริง <b>หากไม่มั่นใจว่าโลหิตของท่านปลอดเชื้อ กรุณางดบริจาคโลหิต</b></div>
+      <div class="progress-mini"><b id="qProgText">ตอบแล้ว 0 / 39</b><div class="track"><i id="qProgBar"></i></div></div>
+      <div id="qWrap"></div>
+    </section>
+
+    <!-- STEP 5 -->
+    <section class="step" data-step="4" hidden>
+      <div class="step-title"><h2>ยืนยันและยินยอม</h2><span>ขั้นตอน 5 / 5</span></div>
+      <div class="card">
+        <h3><span class="num">1</span>ตรวจสอบข้อมูล</h3>
+        <div class="review" id="reviewBox"></div>
+      </div>
+      <div class="card">
+        <h3><span class="num">2</span>คำรับรองและความยินยอม</h3>
+        <div class="consent-text">
+          <p class="hl">ข้าพเจ้ารับรองว่า ได้ให้ข้อมูลและตอบคำถามตามความเป็นจริง</p>
+          <p>ข้าพเจ้าขอบริจาคโลหิตให้สภากาชาดไทย นำไปใช้ประโยชน์ในงานบริการโลหิตหรืองานวิจัยด้านการแพทย์* ด้วยความสมัครใจ และรับทราบว่าโลหิตต้องได้รับการตรวจการติดเชื้อซิฟิลิส ไวรัสตับอักเสบบี ซี และเอชไอวี รวมทั้งรับทราบว่าสามารถนำไปผลิตเป็นยาใช้รักษาผู้ป่วย และน้ำยาสำหรับห้องปฏิบัติการ เพื่อจำหน่ายจ่ายแจกให้แก่โรงพยาบาล รวมทั้งการจัดการของเสียอย่างเหมาะสม</p>
+          <p>ข้าพเจ้ารับทราบถึงวัตถุประสงค์การเก็บรวบรวมข้อมูลส่วนบุคคล เพื่อประมวลผลและใช้ในการวิจัยทางการแพทย์และงานบริการโลหิตครบถ้วนแล้ว และยินยอมให้ตรวจสอบข้อมูลกับหน่วยงานอื่นๆ สังกัดสภากาชาดไทย</p>
+          <p class="hl">ข้าพเจ้าได้รับทราบข้อมูลเกี่ยวกับผลดีและโอกาสเกิดผลข้างเคียงของการบริจาคโลหิตแล้ว และยินดีที่จะบริจาคโลหิตในครั้งนี้</p>
+          <p style="font-size:12px;color:var(--muted)">* การวิจัยทางการแพทย์เพื่อประโยชน์สาธารณะที่ไม่หวังสิ่งตอบแทน ที่ผ่านขั้นตอนการตรวจสอบและผ่านการรับรองจากคณะกรรมการจริยธรรมการวิจัยของศูนย์บริการโลหิตแห่งชาติ หรือขององค์กรอื่นที่เกี่ยวข้อง (ข้อบังคับแพทยสภาเกี่ยวกับการศึกษาวิจัยและการทดลองในมนุษย์ พ.ศ. 2525) หรืองานวิจัยที่ประกาศเพิ่มเติมภายหลัง — ศึกษานโยบายคุ้มครองข้อมูลส่วนบุคคลได้ที่ <a href="https://redcross.or.th/trcs-pdpa" target="_blank" rel="noopener">redcross.or.th/trcs-pdpa</a></p>
+        </div>
+        <div class="field" data-req="consent">
+          <label class="agree"><input type="checkbox" name="consent" value="ยินยอม"><span>ข้าพเจ้าได้อ่าน เข้าใจ และ<b>ยินยอม</b>ตามข้อความข้างต้นทั้งหมด</span></label>
+          <div class="err">กรุณายืนยันความยินยอม</div>
+        </div>
+        <div class="grid" style="margin-top:14px">
+          <div class="field c8"><label for="signature">ลงชื่อผู้สมัคร (พิมพ์ชื่อ-นามสกุล) <span class="req">*</span></label><input class="input" id="signature" name="signature" required><div class="err">กรุณาลงชื่อ</div></div>
+          <div class="field c4"><label for="signDate">วันที่</label><input class="input" type="date" id="signDate" name="signDate"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="form-nav">
+      <button type="button" class="btn btn-ghost" id="prevBtn">← ย้อนกลับ</button>
+      <span class="info" id="navInfo"></span>
+      <button type="button" class="btn btn-primary" id="nextBtn">ถัดไป →</button>
+    </div>
+  </form>
+</main>
+
+<!-- ================= SUCCESS ================= -->
+<main id="view-success" class="wrap" hidden>
+  <div class="card success">
+    <div class="ring"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0b7a37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2>ส่งใบสมัครเรียบร้อยแล้ว</h2>
+    <p style="color:var(--muted);margin:0">ขอบคุณที่ร่วมเป็นผู้ให้ กรุณาแจ้งรหัสอ้างอิงนี้กับเจ้าหน้าที่</p>
+    <div class="refid" id="refId">—</div>
+    <div><button class="btn btn-primary" type="button" id="newFormBtn">กรอกใบสมัครใหม่</button></div>
+  </div>
+</main>
+
+<!-- ================= LOGIN ================= -->
+<main id="view-login" class="wrap" hidden>
+  <div class="login">
+    <form class="card" id="loginForm">
+      <div class="logo-mark" style="width:48px;height:48px;border-radius:14px"><svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.5c-.3 0-.6.2-.8.4C9.6 5 5 10.6 5 15a7 7 0 0 0 14 0c0-4.4-4.6-10-6.2-12.1-.2-.2-.5-.4-.8-.4z"/></svg></div>
+      <h2>เข้าสู่ระบบผู้ดูแล</h2>
+      <p>สำหรับเจ้าหน้าที่เพื่อดูสรุปและข้อมูลรายบุคคล</p>
+      <div class="field" style="margin-bottom:12px"><label for="lgUser">ชื่อผู้ใช้</label><input class="input" id="lgUser" autocomplete="username" required></div>
+      <div class="field" style="margin-bottom:18px"><label for="lgPass">รหัสผ่าน</label><input class="input" id="lgPass" type="password" autocomplete="current-password" required></div>
+      <button class="btn btn-primary" style="width:100%" id="lgBtn">เข้าสู่ระบบ</button>
+      <button type="button" class="btn btn-ghost" style="width:100%;margin-top:10px" id="backToForm">← กลับไปหน้าแบบฟอร์ม</button>
+    </form>
+  </div>
+</main>
+
+<!-- ================= DASHBOARD ================= -->
+<main id="view-dash" class="wrap wide" hidden>
+  <div class="dash-head">
+    <div><h1>Dashboard ผู้บริจาคโลหิต</h1><div class="sub" id="dashSub">—</div></div>
+    <div class="spacer"></div>
+    <button class="btn btn-ghost btn-sm" id="seedBtn" hidden>+ สร้างข้อมูลตัวอย่าง</button>
+    <button class="btn btn-ghost btn-sm" id="refreshBtn">⟳ รีเฟรช</button>
+    <button class="btn btn-ghost btn-sm" id="exportBtn">ดาวน์โหลด CSV</button>
+    <button class="btn btn-danger btn-sm" id="logoutBtn">ออกจากระบบ</button>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="charts">
+    <div class="card w4"><h4>ผู้สมัครรายวัน</h4><div class="cap">14 วันล่าสุด</div><div class="chart-box"><canvas id="chDaily"></canvas></div></div>
+    <div class="card w2"><h4>ประเภทผู้บริจาค</h4><div class="cap">สัดส่วนผู้สมัครทั้งหมด</div><div class="chart-box"><canvas id="chType"></canvas></div></div>
+    <div class="card w2"><h4>ช่วงอายุ</h4><div class="cap">จำนวนผู้สมัคร (คน)</div><div class="chart-box"><canvas id="chAge"></canvas></div></div>
+    <div class="card w2"><h4>หมู่โลหิต</h4><div class="cap">จากผลบันทึกของเจ้าหน้าที่</div><div class="chart-box"><canvas id="chBlood"></canvas></div></div>
+    <div class="card w2"><h4>อาชีพ</h4><div class="cap">จำนวนผู้สมัคร (คน)</div><div class="chart-box"><canvas id="chOcc"></canvas></div></div>
+  </div>
+
+  <div class="card">
+    <h3>รายชื่อผู้สมัคร</h3>
+    <div class="toolbar">
+      <input class="input search" id="fSearch" placeholder="ค้นหา ชื่อ / รหัสอ้างอิง / เลขบัตร / เบอร์โทร">
+      <select class="input" id="fType"><option value="">ทุกประเภท</option><option>บริจาคโลหิตครั้งแรก</option><option>บริจาคครั้งสุดท้ายนานกว่า 2 ปี</option><option>บริจาคโลหิตประจำ</option></select>
+      <select class="input" id="fStatus"><option value="">ทุกสถานะ</option></select>
+      <select class="input" id="fRisk"><option value="">ทุกระดับ</option><option value="risk">มีข้อต้องพิจารณา</option><option value="clear">ไม่มีข้อต้องพิจารณา</option></select>
+    </div>
+    <div class="table-wrap">
+      <table class="tbl">
+        <thead><tr><th>รหัสอ้างอิง</th><th>วันที่ส่ง</th><th>ชื่อ-นามสกุล</th><th>เพศ / อายุ</th><th>ประเภท</th><th>หมู่โลหิต</th><th>ข้อต้องพิจารณา</th><th>สถานะ</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="muted" id="tblCount" style="margin-top:10px;font-size:13px;color:var(--muted)"></div>
+  </div>
+</main>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="m-head">
+      <div class="avatar" id="mAvatar"></div>
+      <div style="min-width:0"><h2 id="mName"></h2><div class="meta" id="mMeta"></div></div>
+      <button class="x" id="mClose" aria-label="ปิด">×</button>
+    </div>
+    <div class="tabs">
+      <button class="tab on" data-tab="info">ข้อมูลผู้สมัคร</button>
+      <button class="tab" data-tab="qa">แบบสอบถามสุขภาพ</button>
+      <button class="tab" data-tab="staff">สำหรับเจ้าหน้าที่</button>
+    </div>
+    <div class="m-body" id="mBody"></div>
+    <div class="m-foot">
+      <button class="btn btn-danger btn-sm" id="mDelete" style="margin-right:auto">ลบข้อมูล</button>
+      <button class="btn btn-ghost btn-sm" id="mPrint">พิมพ์ / PDF</button>
+      <button class="btn btn-primary btn-sm" id="mSave" hidden>บันทึกข้อมูลเจ้าหน้าที่</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<footer class="foot">อ้างอิงแบบฟอร์ม ITSP001/001 ศูนย์บริการโลหิตแห่งชาติ สภากาชาดไทย</footer>
+
+<script>
+/* =====================================================================
+   ตั้งค่า: วาง URL ของ Google Apps Script Web App (ลงท้ายด้วย /exec)
+   ถ้าเว้นว่าง ระบบจะทำงานแบบ "โหมดทดลอง" เก็บข้อมูลในเบราว์เซอร์นี้เท่านั้น
+   ===================================================================== */
+const API_URL = 'https://script.google.com/macros/s/AKfycbwMtg1oYlT5uI1vFFlE-VL-VTpSUChVsciE9Sd59DR2Q1mB_aUDoPfjvOBUHgIpe-U/exec';
+
+const DEMO = !API_URL;
+const DEMO_KEY = 'bd_demo_records';
+const STATUSES = ['รอคัดกรอง','ผ่านคัดกรอง','งดบริจาคชั่วคราว','ไม่ผ่านคัดกรอง'];
+const STATUS_CLASS = {'รอคัดกรอง':'','ผ่านคัดกรอง':'ok','งดบริจาคชั่วคราว':'warn','ไม่ผ่านคัดกรอง':'bad'};
+const DONOR_TYPES = ['บริจาคโลหิตครั้งแรก','บริจาคครั้งสุดท้ายนานกว่า 2 ปี','บริจาคโลหิตประจำ'];
+
+/* ---------- แบบสอบถาม 39 ข้อ ---------- */
+// good = คำตอบที่ปกติ (ค่าเริ่มต้น "ไม่ใช่"), neutral = ไม่นับเป็นข้อต้องพิจารณา
+const QSECTIONS = [
+ {title:'สุขภาพทั่วไป', items:[
+  {n:1,t:'รู้สึกสบายดี สุขภาพแข็งแรง พร้อมที่จะบริจาคโลหิต',good:'ใช่'},
+  {n:2,t:'นอนหลับพักผ่อนเพียงพอ (ไม่น้อยกว่า 5 ชั่วโมง)',good:'ใช่'},
+  {n:3,t:'รับประทานอาหารที่มีไขมันสูง ภายใน 6 ชั่วโมงที่ผ่านมา'},
+  {n:4,t:'มีโรคประจำตัว หรือเคยเป็นโรค',detail:'โปรดระบุโรค'},
+  {n:5,t:'รับประทานยาปฏิชีวนะ (ยาฆ่าเชื้อ) ภายใน 7 วันที่ผ่านมา'},
+  {n:6,t:'เคย หรือ อยู่ระหว่างใช้ยารักษาหรือป้องกันการติดเชื้อเอชไอวี (PEP/PrEP)'},
+  {n:7,t:'รับประทานยาแอสไพริน ยาคลายกล้ามเนื้อ ยาแก้ปวดข้อ หรือยาอื่นๆ ในกลุ่มเดียวกัน ภายใน 48 ชั่วโมงที่ผ่านมา'},
+  {n:8,t:'ใช้ยา หรือ สมุนไพร หรือ อาหารเสริม',detail:'ได้แก่'},
+  {n:9,t:'ดื่มแอลกอฮอล์ภายใน 24 ชั่วโมงที่ผ่านมา'},
+  {n:10,t:'เคยบริจาคเซลล์ต้นกำเนิดเม็ดโลหิตในระยะ 6 เดือนที่ผ่านมา',opts:['กระแสโลหิต','ไขกระดูก']},
+ ]},
+ {title:'การตั้งครรภ์ / คลอดบุตร',female:true, items:[
+  {n:11,t:'เคยตั้งครรภ์ หรือแท้งบุตร มาก่อน',neutral:true},
+  {n:12,t:'คลอดบุตร หรือแท้งบุตร ภายใน 6 เดือนที่ผ่านมา'},
+  {n:13,t:'อยู่ในช่วงตั้งครรภ์ หรือให้นมบุตร'},
+ ]},
+ {title:'ประวัติด้านเพศสัมพันธ์ในช่วง 1 ปีที่ผ่านมา', items:[
+  {n:14,t:'เพศวิถี (พฤติกรรมทางเพศ) ท่านมีเพศสัมพันธ์กับ (ตอบได้มากกว่า 1 ข้อ)',multi:['เพศกำเนิดตรงข้าม','เพศกำเนิดเดียวกัน','ผู้ที่ไม่ใช่คู่ของตน','ไม่มีเพศสัมพันธ์','มีการเปลี่ยนคู่','อื่นๆ'],riskOpts:['ผู้ที่ไม่ใช่คู่ของตน','มีการเปลี่ยนคู่']},
+  {n:15,t:'ท่านหรือคู่ของท่าน เป็น หรือ เคย มีเพศสัมพันธ์กับ: ผู้ที่อาจติดโรคติดต่อทางเพศสัมพันธ์ / ผู้ใช้สารเสพติดเพื่อเพศสัมพันธ์ (chemsex)'},
+ ]},
+ {title:'ประวัติความเสี่ยงของการติดเชื้อต่างๆ', items:[
+  {n:16,t:'อุดฟัน ขูดหินปูน ภายใน 3 วันที่ผ่านมา / ถอนฟัน รักษารากฟัน ภายใน 7 วันที่ผ่านมา'},
+  {n:17,t:'ท้องเสีย ท้องร่วง ภายใน 7 วันที่ผ่านมา'},
+  {n:18,t:'ทำหัตถการเสริมความงามผ่านผิวหนังทุกชนิด ได้แก่ เจาะหู สัก ลบสัก ฝังเข็ม ฉีดสารต่างๆ และอื่นๆ ภายใน 4 เดือนที่ผ่านมา'},
+  {n:19,t:'ได้รับการผ่าตัดเล็ก ภายใน 7 วันที่ผ่านมา'},
+  {n:20,t:'ได้รับการผ่าตัดใหญ่ ภายใน 6 เดือนที่ผ่านมา'},
+  {n:21,t:'เจ็บป่วยและได้รับโลหิต หรือ ส่วนประกอบโลหิต ภายใน 1 ปีที่ผ่านมา'},
+  {n:22,t:'เคยได้รับการปลูกถ่ายอวัยวะ หรือเซลล์ต้นกำเนิดเม็ดโลหิต'},
+  {n:23,t:'ถูกเข็มที่เปื้อนเลือดตำ ในระยะ 1 ปีที่ผ่านมา'},
+  {n:24,t:'เคยมีอาการตัวเหลืองตาเหลืองจากตับอักเสบ หลังอายุ 11 ปี'},
+  {n:25,t:'คู่ของท่านหรือบุคคลในครอบครัวของท่าน เป็นโรคตับอักเสบ ในระยะเวลา 1 ปีที่ผ่านมา'},
+  {n:26,t:'เคยตรวจพบว่าเป็นพาหะของโรคตับอักเสบ'},
+  {n:27,t:'เคยป่วยเป็นโรคมาลาเรีย ในระยะ 3 ปีที่ผ่านมา'},
+  {n:28,t:'เคยเข้าไปในพื้นที่มีเชื้อมาลาเรียชุกชุม ในระยะ 1 ปีที่ผ่านมา',note:'* หากตอบ “ใช่” กรุณาทำ “แบบคัดกรองความเสี่ยงโรคมาลาเรีย” เพิ่มเติมกับเจ้าหน้าที่'},
+  {n:29,t:'เคยป่วยเป็นโรคไข้หวัดใหญ่ / โรคไข้เลือดออก / โรคชิคุนกุนยา / โรคไข้ซิกา / โรคโควิด-19 ในระยะ 1 เดือนที่ผ่านมา'},
+  {n:30,t:'ได้รับวัคซีนเพื่อป้องกันโรคในระยะ 2 เดือนที่ผ่านมา',detail:'โปรดระบุวัคซีน'},
+  {n:31,t:'ได้รับเซรุ่ม ภายใน 1 ปีที่ผ่านมา'},
+  {n:32,t:'เคยมีประวัติเสพยาเสพติด'},
+  {n:33,t:'เคยถูกกักขังหรือจองจำติดต่อกันเกิน 72 ชั่วโมง ในช่วง 1 ปีที่ผ่านมา'},
+  {n:34,t:'เคยมีน้ำหนักลด มีไข้ มีต่อมน้ำเหลืองโตโดยไม่ทราบสาเหตุ ในระยะ 3 เดือนที่ผ่านมา หรือเคยตรวจพบว่าติดเชื้อเอชไอวี'},
+  {n:35,t:'มีแผลหรือผื่นบนร่างกาย',detail:'โปรดระบุ'},
+ ]},
+ {title:'ประวัติการพักอาศัยในต่างประเทศ', items:[
+  {n:36,t:'ในช่วง 6 เดือนที่ผ่านมา ท่านได้ไปพักอาศัยในต่างประเทศติดต่อกันนานกว่า 3 เดือน'},
+  {n:37,t:'ช่วง พ.ศ. 2523 – 2539 ท่านเคยพำนักอาศัยอยู่ในประเทศ [อังกฤษ ไอร์แลนด์เหนือ สก็อตแลนด์ เวลส์] เป็นเวลาสะสมมากกว่า 3 เดือน'},
+  {n:38,t:'ช่วง พ.ศ. 2523 – 2544 ท่านเคยพำนักอาศัยอยู่ในประเทศฝรั่งเศส หรือไอร์แลนด์ เป็นระยะเวลาสะสมมากกว่า 5 ปี'},
+ ]},
+ {title:'ความปลอดภัยของโลหิต', items:[
+  {n:39,t:'ท่านมั่นใจว่าโลหิตของท่านมีความปลอดภัยต่อผู้ป่วย',good:'ใช่'},
+ ]},
+];
+const ALLQ = QSECTIONS.flatMap(s => s.items.map(q => ({...q, sec:s.title, female:!!s.female})));
+
+const INFO_FIELDS = [
+ ['ประเภทผู้บริจาค',[['donorType','ประเภท'],['formDate','วันที่สมัคร'],['id','รหัสอ้างอิง'],['timestamp','วันเวลาที่ส่ง']]],
+ ['ข้อมูลส่วนตัว',[['prefix','คำนำหน้า'],['fullName','ชื่อ-นามสกุล'],['formerName','ชื่อ-นามสกุล (เดิม)'],['nationalId','เลขบัตรประชาชน'],['donorId','เลขประจำตัวผู้บริจาค'],['dob','วันเกิด'],['age','อายุ (ปี)'],['sex','เพศกำเนิด'],['weight','น้ำหนัก (กก.)'],['height','ส่วนสูง (ซม.)']]],
+ ['ข้อมูลติดต่อ',[['addressType','สถานที่ติดต่อได้'],['address','ที่อยู่'],['postcode','รหัสไปรษณีย์'],['phone','เบอร์โทรศัพท์'],['emergencyPhone','เบอร์ติดต่อฉุกเฉิน'],['email','อีเมล'],['occupation','อาชีพ'],['occupationOther','อาชีพ (อื่นๆ)']]],
+ ['ประวัติการบริจาค',[['prevDonationType','ครั้งที่ผ่านมาบริจาค'],['prevComponent','โลหิตเฉพาะส่วน'],['prevComponentOther','เฉพาะส่วน (อื่นๆ)'],['prevProblem','ปัญหาครั้งก่อน'],['prevProblemDetail','ปัญหาที่พบ'],['prevProblemOther','ปัญหา (อื่นๆ)'],['prevDeferReason','เหตุงดบริจาค'],['prevDeferOther','เหตุงดบริจาค (อื่นๆ)']]],
+ ['การยินยอม',[['consent','การยินยอม'],['signature','ลงชื่อผู้สมัคร'],['signDate','วันที่ลงชื่อ']]],
+];
+const STAFF_FIELDS = [
+ ['s_donorId','เลขประจำตัวผู้บริจาค'],['s_donationNo','บริจาคครั้งที่'],['s_bloodGroup','หมู่โลหิต'],['s_rh','Rh'],
+ ['s_firstDate','บริจาคครั้งแรก (วันที่)'],['s_firstPlace','บริจาคครั้งแรก (สถานที่)'],['s_lastDate','บริจาคครั้งสุดท้าย (วันที่)'],['s_lastPlace','บริจาคครั้งสุดท้าย (สถานที่)'],
+ ['s_bp','ความดันโลหิต (mmHg)'],['s_pulse','ชีพจร (ครั้ง/นาที)'],['s_pulseStatus','ชีพจร'],['s_heartLung','หัวใจ/ปอด'],['s_temp','อุณหภูมิ (°C)'],['s_tempStatus','อุณหภูมิ'],['s_hb','Hb (g/dL)'],['s_hbStatus','Hb'],
+ ['s_deferred','Deferred'],['s_deferReason','Deferred เหตุผล'],['s_deferType','Deferred ประเภท'],['s_unitNumber','Unit Number'],['s_note','หมายเหตุ'],
+ ['s_regStaff','เจ้าหน้าที่ทะเบียน'],['s_bagStaff','เจ้าหน้าที่เตรียมถุง'],['s_collectStaff','เจ้าหน้าที่ผู้เจาะเก็บ'],['s_sampleStaff','เจ้าหน้าที่เก็บตัวอย่างโลหิต'],['s_checkStaff','เจ้าหน้าที่ผู้ตรวจสอบ'],
+ ['s_comment','ความเห็นเพิ่มเติม'],['s_interviewer','แพทย์/ผู้สัมภาษณ์คัดกรอง'],
+];
+
+/* ---------- helpers ---------- */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+const todayISO = () => { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
+const nowStamp = () => { const d=new Date(); return `${todayISO()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; };
+const TH_MONTHS = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+function thDate(s, withTime){
+  const m = String(s||'').match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
+  if(!m) return s || '–';
+  let out = `${+m[3]} ${TH_MONTHS[+m[2]-1]} ${+m[1]+543}`;
+  if(withTime && m[4]) out += ` ${m[4]}:${m[5]} น.`;
+  return out;
+}
+function toast(msg, type=''){
+  const t=$('#toast'); t.textContent=msg; t.className='toast show '+type;
+  clearTimeout(t._h); t._h=setTimeout(()=>t.className='toast', 3200);
+}
+function riskOf(rec){
+  const items=[];
+  ALLQ.forEach(q=>{
+    const v = rec['q'+q.n] || '';
+    if(q.multi){ const vals=v.split(',').map(x=>x.trim()); if(q.riskOpts.some(o=>vals.includes(o))) items.push(q.n); return; }
+    if(q.neutral || !v || v==='-') return;
+    if(v !== (q.good||'ไม่ใช่')) items.push(q.n);
+  });
+  return items;
+}
+
+/* ---------- API (Apps Script หรือ โหมดทดลอง) ---------- */
+async function api(action, payload){
+  payload = payload || {};
+  if(DEMO) return demoApi(action, payload);
+  const res = await fetch(API_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action, ...payload})});
+  if(!res.ok) throw new Error('เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ ('+res.status+')');
+  const j = await res.json();
+  if(!j.ok) throw new Error(j.error || 'เกิดข้อผิดพลาด');
+  return j;
+}
+function demoLoad(){ try{ return JSON.parse(localStorage.getItem(DEMO_KEY)||'[]'); }catch(e){ return []; } }
+function demoSave(a){ try{ localStorage.setItem(DEMO_KEY, JSON.stringify(a)); }catch(e){} }
+async function demoApi(action, p){
+  await new Promise(r=>setTimeout(r,250));
+  const auth = () => { if(p.username!=='admin'||p.password!=='admin') throw new Error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'); };
+  const all = demoLoad();
+  switch(action){
+    case 'submit': {
+      const d=new Date(); const id='BD'+String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+pad(d.getHours())+pad(d.getMinutes())+pad(d.getSeconds())+'-'+Math.floor(Math.random()*900+100);
+      all.unshift({...p.data, id, timestamp:nowStamp(), status:'รอคัดกรอง'}); demoSave(all); return {ok:true,id};
+    }
+    case 'login': auth(); return {ok:true};
+    case 'list': auth(); return {ok:true, data:all};
+    case 'update': { auth(); const r=all.find(x=>x.id===p.id); if(!r) throw new Error('ไม่พบข้อมูล'); Object.assign(r,p.data,{updatedAt:nowStamp()}); demoSave(all); return {ok:true}; }
+    case 'delete': { auth(); demoSave(all.filter(x=>x.id!==p.id)); return {ok:true}; }
+  }
+  throw new Error('Unknown action');
+}
+
+/* =====================================================================
+   FORM
+   ===================================================================== */
+const form = $('#donorForm');
+const STEP_LABELS = ['ประเภทผู้บริจาค','ข้อมูลส่วนตัว','ประวัติการบริจาค','แบบสอบถามสุขภาพ','ยืนยันและยินยอม'];
+let step = 0;
+
+$('#stepper').innerHTML = STEP_LABELS.map((l,i)=>`<div class="st" data-i="${i}"><div class="bar"><i></i></div><div class="lbl">${i+1}. ${l}</div></div>`).join('');
+
+// render questionnaire
+$('#qWrap').innerHTML = QSECTIONS.map((s,si)=>`
+  <div class="card qsec ${s.female?'cond':''}" ${s.female?'data-if="sex=หญิง"':''}>
+    <div class="qsec-h"><h3><span class="num">${si+1}</span>${esc(s.title)}</h3><span class="cnt" data-cnt="${si}"></span></div>
+    ${s.items.map(q=>qHTML(q)).join('')}
+  </div>`).join('');
+
+function qHTML(q){
+  const nm='q'+q.n;
+  if(q.multi){
+    return `<div class="q" data-qn="${q.n}"><div class="q-num">${q.n}</div><div class="q-body" style="grid-column:span 2">
+      <div class="q-text">${esc(q.t)}</div>
+      <div class="q-sub field" data-req="${nm}"><div class="chips" data-exclusive="ไม่มีเพศสัมพันธ์">${q.multi.map(o=>`<label class="chip"><input type="checkbox" name="${nm}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join('')}</div></div>
+      <div class="q-sub cond" data-if="${nm}=อื่นๆ"><input class="input" name="${nm}_other" placeholder="โปรดระบุ"></div>
+    </div></div>`;
+  }
+  let sub='';
+  if(q.detail) sub=`<div class="q-sub cond" data-if="${nm}=ใช่"><input class="input" name="${nm}_detail" placeholder="${esc(q.detail)}"></div>`;
+  if(q.opts) sub=`<div class="q-sub cond" data-if="${nm}=ใช่"><div class="chips">${q.opts.map(o=>`<label class="chip"><input type="checkbox" name="${nm}_detail" value="${o}"><span>${o}</span></label>`).join('')}</div></div>`;
+  if(q.note) sub+=`<div class="q-sub cond note warn" data-if="${nm}=ใช่">${esc(q.note)}</div>`;
+  return `<div class="q" data-qn="${q.n}"><div class="q-num">${q.n}</div><div class="q-body"><div class="q-text">${esc(q.t)}</div>${sub}</div>
+    <div class="yn" data-req="${nm}"><label><input type="radio" name="${nm}" value="ใช่"><span>ใช่</span></label><label><input type="radio" name="${nm}" value="ไม่ใช่"><span>ไม่ใช่</span></label></div></div>`;
+}
+
+function checkedValues(name){
+  return $$(`[name="${name}"]`, form).filter(e=> (e.type==='radio'||e.type==='checkbox') ? e.checked : e.value.trim()).map(e=>e.value.trim());
+}
+const isActive = el => !el.closest('.off');
+
+function applyConds(){
+  $$('[data-if]', form).forEach(el=>{
+    const s=el.dataset.if, i=s.indexOf('='); const name=s.slice(0,i), want=s.slice(i+1).split('|');
+    el.classList.toggle('off', !checkedValues(name).some(v=>want.includes(v)));
+  });
+}
+
+function updateQProgress(){
+  const qs = $$('.q', $('#qWrap')).filter(isActive);
+  let done=0;
+  qs.forEach(q=>{ const n=q.dataset.qn; const ok=checkedValues('q'+n).length>0; q.classList.toggle('answered',ok); if(ok){done++; q.classList.remove('invalid');} });
+  $('#qProgText').textContent = `ตอบแล้ว ${done} / ${qs.length}`;
+  $('#qProgBar').style.width = (qs.length? done/qs.length*100 : 0)+'%';
+  $$('.qsec', $('#qWrap')).forEach((sec,i)=>{
+    const items=$$('.q',sec); const d=items.filter(q=>q.classList.contains('answered')).length;
+    $(`[data-cnt="${i}"]`).textContent = `${d}/${items.length}`;
+  });
+}
+
+function calcAge(){
+  const v=$('#dob').value; if(!v){ $('#age').value=''; return; }
+  const b=new Date(v), t=new Date(); let a=t.getFullYear()-b.getFullYear();
+  if(t.getMonth()<b.getMonth() || (t.getMonth()===b.getMonth() && t.getDate()<b.getDate())) a--;
+  $('#age').value = a>=0 && a<130 ? a : '';
+}
+
+function eligibility(){
+  const age=+$('#age').value, w=+$('#weight').value, type=checkedValues('donorType')[0];
+  const msgs=[]; let cls='ok';
+  if($('#age').value!==''){
+    if(age<17 || age>70){ msgs.push(`อายุ ${age} ปี อยู่นอกเกณฑ์การบริจาค (17–70 ปี)`); cls='warn'; }
+    else {
+      if(age<18){ msgs.push('อายุต่ำกว่า 18 ปี ต้องมีหนังสือยินยอมจากผู้ปกครอง'); cls='warn'; }
+      if(type==='บริจาคโลหิตครั้งแรก' && age>60){ msgs.push('ผู้บริจาคครั้งแรกต้องอายุไม่เกิน 60 ปี'); cls='warn'; }
+      if(age>=65){ msgs.push('อายุ 65–70 ปี ต้องผ่านการประเมินเพิ่มเติม'); cls='warn'; }
+    }
+  }
+  if(w && w<45){ msgs.push('น้ำหนักต่ำกว่า 45 กก. อาจไม่ผ่านเกณฑ์ เจ้าหน้าที่จะประเมินอีกครั้ง'); cls='warn'; }
+  $('#eligBox').innerHTML = msgs.length ? `<div class="note ${cls}">${msgs.map(esc).join('<br>')}</div>`
+    : ($('#age').value!=='' && w ? `<div class="note ok">อายุและน้ำหนักอยู่ในเกณฑ์เบื้องต้น ✓</div>` : '');
+}
+
+// เลขบัตรประชาชน: จัดรูปแบบ + checksum
+function fmtNid(v){
+  const d=v.replace(/\D/g,'').slice(0,13); const parts=[d.slice(0,1),d.slice(1,5),d.slice(5,10),d.slice(10,12),d.slice(12,13)];
+  return parts.filter(Boolean).join('-');
+}
+function validNid(v){
+  const d=v.replace(/\D/g,''); if(d.length!==13) return false;
+  let s=0; for(let i=0;i<12;i++) s+= +d[i]*(13-i);
+  return (11 - s%11)%10 === +d[12];
+}
+$('#nationalId').addEventListener('input', e=>{ e.target.value=fmtNid(e.target.value); });
+$('#postcode').addEventListener('input', e=>{ e.target.value=e.target.value.replace(/\D/g,'').slice(0,5); });
+
+form.addEventListener('change', e=>{
+  const t=e.target;
+  // ตัวเลือกที่ต้องเลือกอย่างเดียว เช่น "ไม่มี"
+  const ex = t.closest('[data-exclusive]');
+  if(ex && t.type==='checkbox' && t.checked){
+    const only=ex.dataset.exclusive;
+    $$(`input[name="${t.name}"]`, ex).forEach(o=>{ if(o!==t && (t.value===only || o.value===only)) o.checked=false; });
+  }
+  if(t.id==='dob') calcAge();
+  applyConds(); updateQProgress(); eligibility();
+  const f=t.closest('.field'); if(f) f.classList.remove('invalid');
+  const q=t.closest('.q'); if(q) q.classList.remove('invalid');
+});
+form.addEventListener('input', e=>{ const f=e.target.closest('.field'); if(f) f.classList.remove('invalid'); if(e.target.id==='weight') eligibility(); });
+
+function validateStep(i){
+  const panel=$(`.step[data-step="${i}"]`); let bad=[];
+  $$('.invalid', panel).forEach(x=>x.classList.remove('invalid'));
+  $$('[data-req]', panel).filter(isActive).forEach(box=>{
+    if(!checkedValues(box.dataset.req).length){ const host=box.closest('.q') || box.closest('.field') || box; host.classList.add('invalid'); bad.push(host); }
+  });
+  $$('input[required],select[required],textarea[required]', panel).filter(isActive).forEach(el=>{
+    if(!el.value.trim()){ const h=el.closest('.field')||el; h.classList.add('invalid'); bad.push(h); }
+  });
+  if(i===1){
+    const nid=$('#nationalId'); if(nid.value && !validNid(nid.value)){ nid.closest('.field').classList.add('invalid'); $('#nidErr').textContent='เลขบัตรประชาชนไม่ถูกต้อง (ตรวจสอบหลักสุดท้าย)'; bad.push(nid.closest('.field')); }
+    else $('#nidErr').textContent='กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง';
+    const em=$('#email'); if(em.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value)){ em.closest('.field').classList.add('invalid'); bad.push(em.closest('.field')); }
+  }
+  bad = [...new Set(bad)];
+  if(bad.length){
+    bad[0].scrollIntoView({behavior:'smooth', block:'center'});
+    toast(i===3 ? `ยังตอบไม่ครบ ${bad.length} ข้อ` : 'กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน','err');
+    return false;
+  }
+  return true;
+}
+
+function collect(){
+  const data={}; const names=[...new Set($$('[name]', form).map(e=>e.name))];
+  names.forEach(n=>{
+    const els=$$(`[name="${n}"]`, form).filter(isActive);
+    data[n] = els.filter(e=> (e.type==='radio'||e.type==='checkbox') ? e.checked : true).map(e=>e.value.trim()).filter(Boolean).join(', ');
+  });
+  data.age = $('#age').value;
+  if(data.sex!=='หญิง'){ data.q11=data.q12=data.q13='-'; }
+  const r = riskOf(data); data.riskCount=String(r.length); data.riskItems = r.length ? 'ข้อ '+r.join(', ') : '';
+  return data;
+}
+
+function renderReview(){
+  const d=collect();
+  const items=[
+    ['ประเภทผู้บริจาค', d.donorType],['ชื่อ-นามสกุล', `${d.prefix} ${d.fullName}`],['เลขบัตรประชาชน', d.nationalId],
+    ['วันเกิด / อายุ', `${thDate(d.dob)} (${d.age||'–'} ปี)`],['เพศ / น้ำหนัก', `${d.sex} / ${d.weight} กก.`],['เบอร์โทรศัพท์', d.phone],
+    ['อาชีพ', d.occupation==='อื่นๆ'? d.occupationOther : d.occupation],['แบบสอบถาม', `ตอบครบ ${$$('.q',$('#qWrap')).filter(isActive).length} ข้อ`],
+  ];
+  $('#reviewBox').innerHTML = items.map(([k,v])=>`<div><small>${k}</small><b>${esc(v||'–')}</b></div>`).join('');
+  if(!$('#signature').value) $('#signature').value = `${d.prefix==='อื่นๆ'?'':d.prefix}${d.fullName}`.trim();
+}
+
+function showStep(i){
+  step=i;
+  $$('.step').forEach(s=>s.hidden = +s.dataset.step!==i);
+  $$('#stepper .st').forEach((s,k)=>{ s.classList.toggle('done',k<i); s.classList.toggle('cur',k===i); });
+  $('#prevBtn').style.visibility = i===0 ? 'hidden':'visible';
+  $('#nextBtn').innerHTML = i===4 ? 'ส่งใบสมัคร ✓' : 'ถัดไป →';
+  $('#navInfo').textContent = `${i+1} / 5`;
+  if(i===4) renderReview();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+$('#prevBtn').onclick = ()=> step>0 && showStep(step-1);
+$('#nextBtn').onclick = async ()=>{
+  if(!validateStep(step)) return;
+  if(step<4) return showStep(step+1);
+  const btn=$('#nextBtn'); btn.disabled=true; btn.innerHTML='<span class="spin"></span> กำลังส่ง...';
+  try{
+    const res = await api('submit',{data:collect()});
+    $('#refId').textContent = res.id;
+    showView('success');
+  }catch(err){ toast(err.message,'err'); }
+  finally{ btn.disabled=false; btn.innerHTML='ส่งใบสมัคร ✓'; }
+};
+$('#newFormBtn').onclick = ()=>{ resetForm(); showView('form'); };
+
+function resetForm(){
+  form.reset(); $('#formDate').value=todayISO(); $('#signDate').value=todayISO(); $('#age').value='';
+  $$('.invalid',form).forEach(x=>x.classList.remove('invalid'));
+  applyConds(); updateQProgress(); eligibility(); showStep(0);
+}
+
+/* =====================================================================
+   VIEWS / NAV
+   ===================================================================== */
+function getAuth(){ try{ return JSON.parse(sessionStorage.getItem('bd_admin')||'null'); }catch(e){ return null; } }
+function setAuth(v){ try{ v? sessionStorage.setItem('bd_admin',JSON.stringify(v)) : sessionStorage.removeItem('bd_admin'); }catch(e){} AUTH=v; }
+let AUTH = getAuth();
+
+function showView(v){
+  ['form','success','login','dash'].forEach(k=>$('#view-'+k).hidden = k!==v);
+  const admin = v==='login'||v==='dash';
+  $('#navBtn').textContent = admin ? '← แบบฟอร์มสมัคร' : 'ผู้ดูแลระบบ';
+  $('#navBtn').dataset.go = admin ? 'form' : 'admin';
+  if(admin && location.hash!=='#admin') history.replaceState(null,'','#admin');
+  if(!admin && location.hash) history.replaceState(null,'',location.pathname+location.search);
+  window.scrollTo(0,0);
+}
+function goAdmin(){ if(AUTH){ showView('dash'); loadDash(); } else { showView('login'); setTimeout(()=>$('#lgUser').focus(),50); } }
+$('#navBtn').onclick = ()=> $('#navBtn').dataset.go==='admin' ? goAdmin() : showView('form');
+$('#backToForm').onclick = ()=> showView('form');
+
+$('#loginForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const creds={username:$('#lgUser').value.trim(), password:$('#lgPass').value};
+  const b=$('#lgBtn'); b.disabled=true; b.innerHTML='<span class="spin"></span> กำลังตรวจสอบ...';
+  try{ await api('login',creds); setAuth(creds); $('#lgPass').value=''; showView('dash'); loadDash(); }
+  catch(err){ toast(err.message,'err'); }
+  finally{ b.disabled=false; b.textContent='เข้าสู่ระบบ'; }
+});
+$('#logoutBtn').onclick = ()=>{ setAuth(null); showView('login'); toast('ออกจากระบบแล้ว'); };
+
+/* =====================================================================
+   DASHBOARD
+   ===================================================================== */
+let RECORDS=[]; const charts={};
+$('#fStatus').innerHTML += STATUSES.map(s=>`<option>${s}</option>`).join('');
+
+async function loadDash(){
+  $('#dashSub').textContent='กำลังโหลดข้อมูล...';
+  try{
+    const res = await api('list', AUTH);
+    RECORDS = (res.data||[]).map(r=>{ const risk=riskOf(r); return {...r, _risk:risk, status:r.status||'รอคัดกรอง'}; });
+    $('#dashSub').textContent = `ข้อมูลทั้งหมด ${RECORDS.length} รายการ · อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} น.` + (DEMO?' · โหมดทดลอง (ข้อมูลในเบราว์เซอร์)':'');
+    renderKPIs(); renderCharts(); renderTable();
+  }catch(err){
+    $('#dashSub').textContent='โหลดข้อมูลไม่สำเร็จ'; toast(err.message,'err');
+    if(/รหัสผ่าน/.test(err.message)){ setAuth(null); showView('login'); }
+  }
+}
+$('#refreshBtn').onclick = loadDash;
+
+function renderKPIs(){
+  const t=todayISO(); const c=s=>RECORDS.filter(r=>r.status===s).length;
+  const k=[
+    ['ผู้สมัครทั้งหมด', RECORDS.length, 'คน', '#d6263b'],
+    ['สมัครวันนี้', RECORDS.filter(r=>(r.timestamp||'').startsWith(t)).length, thDate(t), '#2a78d6'],
+    ['รอคัดกรอง', c('รอคัดกรอง'), 'รายการ', '#8a8a93'],
+    ['ผ่านคัดกรอง', c('ผ่านคัดกรอง'), `งดชั่วคราว ${c('งดบริจาคชั่วคราว')} · ไม่ผ่าน ${c('ไม่ผ่านคัดกรอง')}`, '#0b7a37'],
+    ['มีข้อต้องพิจารณา', RECORDS.filter(r=>r._risk.length).length, 'จากแบบสอบถาม', '#eda100'],
+  ];
+  $('#kpis').innerHTML = k.map(([l,v,f,col])=>`<div class="kpi"><small><i style="background:${col}"></i>${l}</small><b>${v.toLocaleString('th-TH')}</b><div class="foot">${esc(f)}</div></div>`).join('');
+}
+
+function countBy(arr, fn){ const m=new Map(); arr.forEach(x=>{ const k=fn(x); if(k!=null) m.set(k,(m.get(k)||0)+1); }); return m; }
+const AXIS = {grid:{color:'#e1e0d9', drawTicks:false}, border:{display:false}, ticks:{color:'#898781', padding:6, precision:0}};
+function barChart(id, labels, data, opts={}){
+  if(charts[id]) charts[id].destroy();
+  const box=$('#'+id).parentElement; $$('.empty-chart',box).forEach(x=>x.remove());
+  if(!data.some(v=>v>0)) box.insertAdjacentHTML('beforeend','<div class="empty-chart">ยังไม่มีข้อมูล</div>');
+  charts[id] = new Chart($('#'+id), {
+    type:'bar',
+    data:{labels, datasets:[{data, backgroundColor:opts.color||'#e34948', hoverBackgroundColor:'#b51d30', borderRadius:4, borderSkipped:'start', maxBarThickness:opts.horizontal?18:34, categoryPercentage:.8, barPercentage:.9}]},
+    options:{indexAxis:opts.horizontal?'y':'x', responsive:true, maintainAspectRatio:false, animation:{duration:400},
+      plugins:{legend:{display:false}, tooltip:{backgroundColor:'#1d1d22', padding:10, cornerRadius:8, displayColors:false, callbacks:{label:c=>`${c.formattedValue} คน`}}},
+      scales: opts.horizontal
+        ? {x:{...AXIS, beginAtZero:true}, y:{grid:{display:false}, border:{color:'#c3c2b7'}, ticks:{color:'#4f4f58', font:{size:11.5}}}}
+        : {y:{...AXIS, beginAtZero:true}, x:{grid:{display:false}, border:{color:'#c3c2b7'}, ticks:{color:'#4f4f58', maxRotation:0, autoSkip:true, font:{size:11.5}}}}
+    }
+  });
+}
+function renderCharts(){
+  if(typeof Chart==='undefined') return; // ออฟไลน์: โหลด Chart.js ไม่ได้ ยังใช้ตาราง/KPI ได้
+  Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+  // รายวัน 14 วัน
+  const days=[...Array(14)].map((_,i)=>{ const d=new Date(); d.setDate(d.getDate()-13+i); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; });
+  const byDay=countBy(RECORDS, r=>(r.timestamp||'').slice(0,10));
+  barChart('chDaily', days.map(d=>{ const [y,m,dd]=d.split('-'); return `${+dd} ${TH_MONTHS[+m-1]}`; }), days.map(d=>byDay.get(d)||0));
+  // ประเภท donut
+  const byType=countBy(RECORDS, r=>r.donorType||null);
+  if(charts.chType) charts.chType.destroy();
+  const tbox=$('#chType').parentElement; $$('.empty-chart',tbox).forEach(x=>x.remove());
+  if(!RECORDS.length) tbox.insertAdjacentHTML('beforeend','<div class="empty-chart">ยังไม่มีข้อมูล</div>');
+  charts.chType = new Chart($('#chType'), {type:'doughnut',
+    data:{labels:['ครั้งแรก','เว้นนานกว่า 2 ปี','บริจาคประจำ'], datasets:[{data:DONOR_TYPES.map(t=>byType.get(t)||0), backgroundColor:['#2a78d6','#eb6834','#1baf7a'], borderColor:'#fff', borderWidth:2, hoverOffset:4}]},
+    options:{responsive:true, maintainAspectRatio:false, cutout:'62%',
+      plugins:{legend:{position:'bottom', labels:{usePointStyle:true, pointStyle:'circle', boxWidth:8, color:'#4f4f58', padding:12, font:{size:12}}},
+        tooltip:{backgroundColor:'#1d1d22', padding:10, cornerRadius:8, callbacks:{label:c=>{ const tot=c.dataset.data.reduce((a,b)=>a+b,0)||1; return ` ${c.label}: ${c.raw} คน (${Math.round(c.raw/tot*100)}%)`; }}}}}});
+  // อายุ
+  const bands=[['17–20',17,20],['21–30',21,30],['31–40',31,40],['41–50',41,50],['51–60',51,60],['61–70',61,70]];
+  barChart('chAge', bands.map(b=>b[0]), bands.map(([,a,b])=>RECORDS.filter(r=>{ const x=+r.age; return r.age!=='' && x>=a && x<=b; }).length));
+  // หมู่โลหิต
+  const groups=['A','B','AB','O'];
+  const byBlood=countBy(RECORDS, r=>r.s_bloodGroup||null);
+  barChart('chBlood', groups, groups.map(g=>byBlood.get(g)||0));
+  // อาชีพ
+  const occShort={'นักเรียน นักศึกษา':'นักเรียน/นักศึกษา','ข้าราชการ ทหาร ตำรวจ พนักงานรัฐวิสาหกิจ':'ข้าราชการ/รัฐวิสาหกิจ','พนักงานบริษัท รับจ้าง':'พนักงานบริษัท/รับจ้าง','พระภิกษุ สามเณร นักบวช':'พระภิกษุ/นักบวช','เกษตรกร':'เกษตรกร','ธุรกิจส่วนตัว ค้าขาย':'ธุรกิจส่วนตัว/ค้าขาย','อื่นๆ':'อื่นๆ'};
+  const byOcc=countBy(RECORDS, r=>r.occupation||null);
+  const occ=Object.keys(occShort).map(k=>[occShort[k], byOcc.get(k)||0]).sort((a,b)=>b[1]-a[1]);
+  barChart('chOcc', occ.map(o=>o[0]), occ.map(o=>o[1]), {horizontal:true});
+}
+
+function filtered(){
+  const q=$('#fSearch').value.trim().toLowerCase(), t=$('#fType').value, s=$('#fStatus').value, rk=$('#fRisk').value;
+  return RECORDS.filter(r=>{
+    if(t && r.donorType!==t) return false;
+    if(s && r.status!==s) return false;
+    if(rk==='risk' && !r._risk.length) return false;
+    if(rk==='clear' && r._risk.length) return false;
+    if(q){ const hay=[r.id,r.fullName,r.nationalId,r.phone,r.donorId,r.s_donorId].join(' ').toLowerCase(); const qd=q.replace(/-/g,''); if(!hay.includes(q) && !hay.replace(/-/g,'').includes(qd)) return false; }
+    return true;
+  });
+}
+function statusBadge(s){ return `<span class="badge ${STATUS_CLASS[s]??''}">${esc(s)}</span>`; }
+function renderTable(){
+  const rows=filtered();
+  $('#tbody').innerHTML = rows.length ? rows.map(r=>`
+    <tr data-id="${esc(r.id)}">
+      <td><span class="muted">${esc(r.id)}</span></td>
+      <td>${esc(thDate(r.timestamp,true))}</td>
+      <td><div class="name">${esc((r.prefix&&r.prefix!=='อื่นๆ'?r.prefix:'')+r.fullName)}</div><div class="muted">${esc(r.phone||'')}</div></td>
+      <td>${esc(r.sex||'–')} · ${esc(r.age||'–')} ปี</td>
+      <td>${esc(r.donorType||'–')}</td>
+      <td>${r.s_bloodGroup?`<span class="blood">${esc(r.s_bloodGroup)}${r.s_rh==='Negative'?'−':r.s_rh==='Positive'?'+':''}</span>`:'<span class="muted">–</span>'}</td>
+      <td>${r._risk.length?`<span class="risk">⚠ ${r._risk.length} ข้อ</span>`:'<span class="risk zero">✓ ไม่มี</span>'}</td>
+      <td>${statusBadge(r.status)}</td>
+    </tr>`).join('') : `<tr><td colspan="8" class="empty">${RECORDS.length?'ไม่พบข้อมูลตามเงื่อนไข':'ยังไม่มีผู้สมัคร'}</td></tr>`;
+  $('#tblCount').textContent = `แสดง ${rows.length} จาก ${RECORDS.length} รายการ`;
+}
+['fSearch','fType','fStatus','fRisk'].forEach(id=>$('#'+id).addEventListener('input', renderTable));
+$('#tbody').addEventListener('click', e=>{ const tr=e.target.closest('tr[data-id]'); if(tr) openDetail(tr.dataset.id); });
+
+/* ---------- รายบุคคล ---------- */
+let CUR=null, CUR_TAB='info', ONLY_RISK=false;
+function openDetail(id){
+  CUR=RECORDS.find(r=>r.id===id); if(!CUR) return;
+  const nm=(CUR.prefix&&CUR.prefix!=='อื่นๆ'?CUR.prefix:'')+(CUR.fullName||'');
+  $('#mAvatar').textContent=(CUR.fullName||'?').trim().charAt(0);
+  $('#mName').textContent=nm||'–';
+  $('#mMeta').innerHTML=`<span>${esc(CUR.id)}</span><span>${esc(thDate(CUR.timestamp,true))}</span>${statusBadge(CUR.status)}${CUR._risk.length?`<span class="risk">⚠ ต้องพิจารณา ${CUR._risk.length} ข้อ</span>`:''}`;
+  $('#modal').hidden=false; document.body.style.overflow='hidden';
+  setTab('info');
+}
+function closeModal(){ $('#modal').hidden=true; document.body.style.overflow=''; }
+$('#mClose').onclick=closeModal;
+$('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('#modal').hidden) closeModal(); });
+$$('.tab').forEach(t=>t.onclick=()=>setTab(t.dataset.tab));
+
+function kvHTML(fields, r){
+  return `<div class="kv">${fields.map(([k,l])=>{ let v=r[k]; if(['dob','formDate','signDate'].includes(k)) v=v?thDate(v):''; if(k==='timestamp') v=thDate(v,true); return `<div><small>${esc(l)}</small><b>${esc(v||'–')}</b></div>`; }).join('')}</div>`;
+}
+function qaHTML(r, onlyRisk){
+  const flags=new Set(r._risk||riskOf(r));
+  return QSECTIONS.map(s=>{
+    const items=s.items.filter(q=>!onlyRisk||flags.has(q.n));
+    if(!items.length) return '';
+    return `<div class="sec-t">${esc(s.title)}</div>`+items.map(q=>{
+      const v=r['q'+q.n]||'–'; const det=[r['q'+q.n+'_detail'], r['q'+q.n+'_other']].filter(Boolean).join(', ');
+      return `<div class="qa ${flags.has(q.n)?'flag':''}"><div class="n">${q.n}</div><div>${esc(q.t)}${det?`<div class="det">ระบุ: ${esc(det)}</div>`:''}</div><div class="ans">${esc(v)}</div></div>`;
+    }).join('');
+  }).join('') || '<div class="empty">ไม่มีข้อที่ต้องพิจารณา ✓</div>';
+}
+function sel(name, opts, val){ return `<select class="input" name="${name}"><option value="">–</option>${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select>`; }
+function inp(name, val, type='text', ph=''){ return `<input class="input" name="${name}" type="${type}" value="${esc(val||'')}" placeholder="${esc(ph)}">`; }
+function staffHTML(r){
+  const f=(l,html,c='c4')=>`<div class="field ${c}"><label>${l}</label>${html}</div>`;
+  return `<form id="staffForm" class="grid">
+    ${f('สถานะคัดกรอง', sel('status',STATUSES,r.status))}
+    ${f('เลขประจำตัวผู้บริจาค', inp('s_donorId',r.s_donorId||r.donorId))}
+    ${f('บริจาคครั้งที่', inp('s_donationNo',r.s_donationNo,'number'))}
+    ${f('หมู่โลหิต', sel('s_bloodGroup',['A','B','AB','O'],r.s_bloodGroup),'c3')}
+    ${f('Rh', sel('s_rh',['Positive','Negative'],r.s_rh),'c3')}
+    ${f('Unit Number', inp('s_unitNumber',r.s_unitNumber),'c6')}
+    <div class="c12 sec-t">กรณีผู้บริจาคประจำไม่มีบัตรประจำตัวผู้บริจาค</div>
+    ${f('บริจาคครั้งแรก (วันที่)', inp('s_firstDate',r.s_firstDate,'date'),'c3')}
+    ${f('สถานที่บริจาค', inp('s_firstPlace',r.s_firstPlace),'c3')}
+    ${f('บริจาคครั้งสุดท้าย (วันที่)', inp('s_lastDate',r.s_lastDate,'date'),'c3')}
+    ${f('สถานที่บริจาค', inp('s_lastPlace',r.s_lastPlace),'c3')}
+    <div class="c12 sec-t">ผลการตรวจร่างกาย</div>
+    ${f('ความดันโลหิต (mmHg)', inp('s_bp',r.s_bp,'text','120/80'),'c3')}
+    ${f('ชีพจร (ครั้ง/นาที)', inp('s_pulse',r.s_pulse,'number'),'c3')}
+    ${f('ชีพจร', sel('s_pulseStatus',['ปกติ','ไม่ปกติ'],r.s_pulseStatus),'c3')}
+    ${f('หัวใจ/ปอด', sel('s_heartLung',['ปกติ','ไม่ปกติ'],r.s_heartLung),'c3')}
+    ${f('อุณหภูมิร่างกาย (°C)', inp('s_temp',r.s_temp,'number'),'c3')}
+    ${f('อุณหภูมิ', sel('s_tempStatus',['ผ่าน','ไม่ผ่าน'],r.s_tempStatus),'c3')}
+    ${f('Hb (g/dL)', inp('s_hb',r.s_hb,'number'),'c3')}
+    ${f('Hb', sel('s_hbStatus',['ผ่าน','ไม่ผ่าน'],r.s_hbStatus),'c3')}
+    <div class="c12 sec-t">Deferred</div>
+    ${f('Deferred', sel('s_deferred',['ใช่','ไม่ใช่'],r.s_deferred),'c3')}
+    ${f('ประเภท', sel('s_deferType',['รับยาที่มีผลต่อเกล็ดเลือด','Under volume','High volume','Discarded'],r.s_deferType),'c3')}
+    ${f('เหตุผล', inp('s_deferReason',r.s_deferReason),'c6')}
+    ${f('หมายเหตุ', `<textarea class="input" name="s_note" rows="2">${esc(r.s_note||'')}</textarea>`,'c12')}
+    <div class="c12 sec-t">เจ้าหน้าที่ผู้ปฏิบัติงาน</div>
+    ${f('เจ้าหน้าที่ทะเบียน', inp('s_regStaff',r.s_regStaff))}
+    ${f('เจ้าหน้าที่เตรียมถุง', inp('s_bagStaff',r.s_bagStaff))}
+    ${f('เจ้าหน้าที่ผู้เจาะเก็บ', inp('s_collectStaff',r.s_collectStaff))}
+    ${f('เจ้าหน้าที่เก็บตัวอย่างโลหิต', inp('s_sampleStaff',r.s_sampleStaff),'c6')}
+    ${f('เจ้าหน้าที่ผู้ตรวจสอบ', inp('s_checkStaff',r.s_checkStaff),'c6')}
+    ${f('ความเห็นเพิ่มเติม (ถ้ามี)', `<textarea class="input" name="s_comment" rows="2">${esc(r.s_comment||'')}</textarea>`,'c12')}
+    ${f('แพทย์หรือเจ้าหน้าที่ผู้สัมภาษณ์คัดกรอง', inp('s_interviewer',r.s_interviewer),'c12')}
+    ${r.updatedAt?`<div class="c12" style="color:var(--muted);font-size:12px">แก้ไขล่าสุด ${esc(thDate(r.updatedAt,true))}</div>`:''}
+  </form>`;
+}
+function setTab(t){
+  CUR_TAB=t; $$('.tab').forEach(x=>x.classList.toggle('on',x.dataset.tab===t));
+  $('#mSave').hidden = t!=='staff';
+  const r=CUR; let h='';
+  if(t==='info'){
+    if(r._risk.length) h+=`<div class="note warn" style="margin-bottom:14px">⚠ แบบสอบถามมีข้อที่ต้องพิจารณา: <b>ข้อ ${r._risk.join(', ')}</b> — ดูรายละเอียดที่แท็บ “แบบสอบถามสุขภาพ”</div>`;
+    h+=INFO_FIELDS.map(([title,fields])=>`<div class="sec-t">${title}</div>${kvHTML(fields.filter(([k])=>r[k]||['fullName','nationalId','phone','donorType'].includes(k)),r)}`).join('');
+  } else if(t==='qa'){
+    h=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:10px;flex-wrap:wrap"><span style="color:var(--muted);font-size:13px">แถบสีเหลือง = คำตอบที่ต้องพิจารณาเพิ่มเติม (ใช้ประกอบการคัดกรองเท่านั้น)</span><label class="switch"><input type="checkbox" id="onlyRisk" ${ONLY_RISK?'checked':''}> แสดงเฉพาะข้อที่ต้องพิจารณา</label></div>`+qaHTML(r, ONLY_RISK);
+  } else h=staffHTML(r);
+  $('#mBody').innerHTML=h; $('#mBody').scrollTop=0;
+  const o=$('#onlyRisk'); if(o) o.onchange=()=>{ ONLY_RISK=o.checked; setTab('qa'); };
+}
+$('#mSave').onclick = async ()=>{
+  const fd=new FormData($('#staffForm')); const data={}; fd.forEach((v,k)=>data[k]=String(v).trim());
+  const b=$('#mSave'); b.disabled=true; b.innerHTML='<span class="spin"></span> กำลังบันทึก';
+  try{
+    await api('update',{...AUTH, id:CUR.id, data});
+    Object.assign(CUR, data); toast('บันทึกเรียบร้อย','ok');
+    openDetail(CUR.id); setTab('staff'); renderKPIs(); renderCharts(); renderTable();
+  }catch(err){ toast(err.message,'err'); }
+  finally{ b.disabled=false; b.textContent='บันทึกข้อมูลเจ้าหน้าที่'; }
+};
+$('#mDelete').onclick = async ()=>{
+  if(!confirm(`ยืนยันการลบข้อมูลของ "${CUR.fullName}" (${CUR.id})?\nการลบไม่สามารถย้อนกลับได้`)) return;
+  try{ await api('delete',{...AUTH, id:CUR.id}); RECORDS=RECORDS.filter(r=>r.id!==CUR.id); closeModal(); renderKPIs(); renderCharts(); renderTable(); toast('ลบข้อมูลแล้ว','ok'); }
+  catch(err){ toast(err.message,'err'); }
+};
+$('#mPrint').onclick = ()=>{
+  const r=CUR; const w=window.open('','_blank'); if(!w) return toast('กรุณาอนุญาต pop-up เพื่อพิมพ์','err');
+  const rows=(fields)=>fields.map(([k,l])=>{ let v=r[k]; if(['dob','formDate','signDate','s_firstDate','s_lastDate'].includes(k)) v=v?thDate(v):''; return `<tr><th>${esc(l)}</th><td>${esc(v||'–')}</td></tr>`; }).join('');
+  const flags=new Set(r._risk);
+  w.document.write(`<!doctype html><html lang="th"><head><meta charset="utf-8"><title>${esc(r.id)} ${esc(r.fullName)}</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
+  <style>body{font-family:"IBM Plex Sans Thai",system-ui,sans-serif;font-size:12px;color:#111;margin:24px}h1{font-size:18px;margin:0}h2{font-size:13px;margin:16px 0 6px;color:#8f1626;border-bottom:1.5px solid #d6263b;padding-bottom:3px}
+  table{width:100%;border-collapse:collapse}th,td{border:1px solid #ddd;padding:4px 7px;text-align:left;vertical-align:top}th{background:#fafafa;width:34%;font-weight:600}.flag td{background:#fff3d6}.cols{columns:2;column-gap:18px}.cols table{break-inside:avoid}
+  .qa th{width:auto}.qa td.a{width:70px;font-weight:600}@media print{body{margin:10mm}}</style></head><body>
+  <h1>ใบสมัครผู้บริจาคโลหิต</h1><div>รหัสอ้างอิง ${esc(r.id)} · ส่งเมื่อ ${esc(thDate(r.timestamp,true))} · สถานะ: ${esc(r.status)}</div>
+  ${INFO_FIELDS.map(([t,f])=>`<h2>${t}</h2><table>${rows(f)}</table>`).join('')}
+  <h2>แบบสอบถามสุขภาพ ${flags.size?`(ข้อที่ต้องพิจารณา: ${[...flags].join(', ')})`:''}</h2>
+  <table class="qa">${ALLQ.map(q=>{ const det=[r['q'+q.n+'_detail'],r['q'+q.n+'_other']].filter(Boolean).join(', '); return `<tr class="${flags.has(q.n)?'flag':''}"><td style="width:28px">${q.n}</td><td>${esc(q.t)}${det?` <i>(ระบุ: ${esc(det)})</i>`:''}</td><td class="a">${esc(r['q'+q.n]||'–')}</td></tr>`; }).join('')}</table>
+  <h2>สำหรับเจ้าหน้าที่</h2><table>${rows(STAFF_FIELDS)}</table>
+  <script>setTimeout(()=>print(),600)<\/script></body></html>`);
+  w.document.close();
+};
+
+/* ---------- export CSV ---------- */
+$('#exportBtn').onclick = ()=>{
+  const rows=filtered(); if(!rows.length) return toast('ไม่มีข้อมูลให้ส่งออก','err');
+  const cols=[['id','รหัสอ้างอิง'],['timestamp','วันเวลาที่ส่ง'],['status','สถานะ'],['riskItems','ข้อที่ต้องพิจารณา'],
+    ...INFO_FIELDS.flatMap(([,f])=>f).filter(([k])=>!['id','timestamp'].includes(k)),
+    ...ALLQ.flatMap(q=>{ const a=[['q'+q.n,'ข้อ '+q.n]]; if(q.detail||q.opts) a.push(['q'+q.n+'_detail','ข้อ '+q.n+' ระบุ']); if(q.multi) a.push(['q'+q.n+'_other','ข้อ '+q.n+' อื่นๆ']); return a; }),
+    ...STAFF_FIELDS.map(([k,l])=>[k,'[จนท] '+l])];
+  const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  const csv='﻿'+[cols.map(c=>q(c[1])).join(','), ...rows.map(r=>cols.map(([k])=>q(k==='riskItems'? (r._risk.length?'ข้อ '+r._risk.join(', '):'') : r[k])).join(','))].join('\r\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download=`blood-donors-${todayISO()}.csv`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+};
+
+/* ---------- ข้อมูลตัวอย่าง (เฉพาะโหมดทดลอง) ---------- */
+$('#seedBtn').onclick = ()=>{
+  const first=['สมชาย','สมหญิง','วิภา','ธนากร','กมล','พรทิพย์','อนุชา','ณัฐธิดา','ปิยะ','ศิริพร','ชัยวัฒน์','มาลี','กิตติ','สุดา','วรเชษฐ์'];
+  const last=['ใจดี','รักชาติ','ศรีสุข','มั่นคง','แก้วงาม','บุญมา','ทองดี','พูลผล'];
+  const occs=['นักเรียน นักศึกษา','ข้าราชการ ทหาร ตำรวจ พนักงานรัฐวิสาหกิจ','พนักงานบริษัท รับจ้าง','เกษตรกร','ธุรกิจส่วนตัว ค้าขาย','พระภิกษุ สามเณร นักบวช'];
+  const pick=a=>a[Math.floor(Math.random()*a.length)];
+  const all=demoLoad();
+  for(let i=0;i<24;i++){
+    const d=new Date(); d.setDate(d.getDate()-Math.floor(Math.random()*14)); d.setHours(8+Math.floor(Math.random()*9), Math.floor(Math.random()*60));
+    const sex=pick(['ชาย','หญิง']); const age=17+Math.floor(Math.random()*50);
+    const r={id:'BD-DEMO-'+(1000+Math.floor(Math.random()*9000)), timestamp:`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:00`,
+      donorType:pick(DONOR_TYPES), formDate:'', prefix:sex==='ชาย'?'นาย':pick(['นาง','นางสาว']), fullName:pick(first)+' '+pick(last), nationalId:'1-1001-00'+(100+i)+'-00-0',
+      dob:`${new Date().getFullYear()-age}-0${1+Math.floor(Math.random()*9)}-15`, age:String(age), sex, weight:String(45+Math.floor(Math.random()*40)), height:String(150+Math.floor(Math.random()*35)),
+      phone:'08'+Math.floor(10000000+Math.random()*89999999), occupation:pick(occs), consent:'ยินยอม',
+      status:pick(['รอคัดกรอง','รอคัดกรอง','ผ่านคัดกรอง','ผ่านคัดกรอง','ผ่านคัดกรอง','งดบริจาคชั่วคราว','ไม่ผ่านคัดกรอง']),
+      s_bloodGroup:Math.random()<.7?pick(['O','O','O','A','A','B','B','AB']):'', s_rh:'Positive'};
+    r.signature=r.prefix+r.fullName; r.formDate=r.timestamp.slice(0,10);
+    ALLQ.forEach(q=>{ if(q.multi){ r['q'+q.n]=pick(['เพศกำเนิดตรงข้าม','เพศกำเนิดตรงข้าม','ไม่มีเพศสัมพันธ์','มีการเปลี่ยนคู่']); return; }
+      if(q.female && sex==='ชาย'){ r['q'+q.n]='-'; return; }
+      const good=q.good||'ไม่ใช่'; r['q'+q.n]= Math.random()<.04 ? (good==='ใช่'?'ไม่ใช่':'ใช่') : good; });
+    all.push(r);
+  }
+  demoSave(all); loadDash(); toast('สร้างข้อมูลตัวอย่าง 24 รายการแล้ว','ok');
+};
+
+/* ---------- init ---------- */
+$('#modePill').textContent = DEMO ? 'โหมดทดลอง' : 'เชื่อมต่อ Google Sheet';
+$('#modePill').className = 'mode-pill' + (DEMO?'':' online');
+$('#modePill').title = DEMO ? 'ยังไม่ได้ตั้งค่า API_URL — ข้อมูลถูกเก็บในเบราว์เซอร์นี้เท่านั้น' : 'บันทึกข้อมูลลง Google Sheet';
+$('#seedBtn').hidden = !DEMO;
+resetForm();
+if(location.hash==='#admin') goAdmin(); else showView('form');
+</script>
+</body>
+</html>
